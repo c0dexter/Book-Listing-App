@@ -25,7 +25,6 @@ import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    private int mCurrentIndex;
 
     /**
      * Tag for the log messages
@@ -61,10 +60,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private SearchView mSearchViewField;
 
-    private static final String KEY_INDEX = "index";
-
-    private ArrayList<Book> mBooks;
-
     ListView bookListView;
 
     @Override
@@ -72,13 +67,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // check if savedInstanceState contains saved data
-        if (savedInstanceState != null) {
-
-            //if there is saved data store it in mCurrentIndex
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-            //we use  KEY_INDEX to retrieve your saved data in this line
-        }
+        //TODO: Implement solution for re-creating List View after rotating screen
 
         // Find a reference to the {@link ListView} in the layout
         bookListView = (ListView) findViewById(R.id.list);
@@ -120,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
          */
         if (isConnected) {
             Log.i(LOG_TAG, "INTERNET connection status: " + String.valueOf(isConnected) + ". It's time to play with LoaderManager :)");
+
 
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
@@ -177,12 +167,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        if (savedInstanceState != null) {
-
-            //if there is saved data store it in mCurrentIndex
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-            //we use  KEY_INDEX to retrieve your saved data in this line
-        }
     }
 
     private String updateQueryUrl(String searchValue) {
