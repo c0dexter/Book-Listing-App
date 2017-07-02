@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void restartLoader() {
         mEmptyStateTextView.setVisibility(GONE);
         circleProgressBar.setVisibility(View.VISIBLE);
-        getLoaderManager().restartLoader(0, null, MainActivity.this);
+        getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
     }
 
 
