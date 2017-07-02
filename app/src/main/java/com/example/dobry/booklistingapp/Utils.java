@@ -97,11 +97,12 @@ public final class Utils {
                 // Extract the value for the key called "language"
                 String language = volumeInfo.getString("language");
 
-                // Extract the value for the key called "smallThumbnail"
-                StringBuilder stringBuilder = new StringBuilder();
-
-
+                // Extract String URL of specific cover
                 String coverImageUrl = imageLinks.getString("smallThumbnail");
+
+                // Extract the value for the key called "smallThumbnail"
+                // Using REGEX and StringBuilder
+                StringBuilder stringBuilder = new StringBuilder();
 
                 Pattern p = Pattern.compile("id=(.*?)&");
                 Matcher m = p.matcher(coverImageUrl);
@@ -144,20 +145,6 @@ public final class Utils {
         return books;
     }
 
-    // Extract ID from cover's URL
-    public String extractImageId(String coverImageUrl) {
-
-        String id = "";
-        Pattern p = Pattern.compile("id=(.*?)&");
-        Matcher m = p.matcher(coverImageUrl);
-        if (m.matches()) {
-            id = m.group(1);
-        } else {
-            Log.i(LOG_TAG, "Regex IS NOT match to any ID!");
-        }
-        return id;
-    }
-
     /**
      * Returns new URL object from the given string URL.
      */
@@ -170,7 +157,6 @@ public final class Utils {
         }
         return url;
     }
-
 
     /**
      * Make an HTTP request to the given URL and return a String as the response.
@@ -216,7 +202,6 @@ public final class Utils {
         return jsonResponse;
     }
 
-
     /**
      * Convert the {@link InputStream} into a String which contains the
      * whole JSON response from the server.
@@ -235,7 +220,6 @@ public final class Utils {
         return output.toString();
     }
 
-
     /**
      * Query the USGS dataset and return a list of {@link Book} objects.
      */
@@ -247,7 +231,6 @@ public final class Utils {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
         // Create URL object
         URL url = createUrl(requestUrl);
@@ -267,6 +250,5 @@ public final class Utils {
         // Return the list of {@link Book}s
         return listBooks;
     }
-
 
 }

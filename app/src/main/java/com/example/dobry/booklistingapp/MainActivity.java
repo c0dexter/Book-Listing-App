@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int BOOK_LOADER_ID = 1;
+    ListView bookListView;
     /**
      * URL for books data from the Google Books API
      */
@@ -44,23 +45,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * TextView that is displayed when the list is empty
      */
     private TextView mEmptyStateTextView;
-
     /**
      * Circle progress bar
      */
     private View circleProgressBar;
-
     /**
      * Adapter for the list of books
      */
     private BookAdapter mAdapter;
-
     /**
      * Search field
      */
     private SearchView mSearchViewField;
-
-    ListView bookListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
-    android:paddingEnd="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingStart="16dp">
+    android:paddingEnd="@dimen/margin_16_dp"
+    android:paddingLeft="@dimen/margin_16_dp"
+    android:paddingRight="@dimen/margin_16_dp"
+    android:paddingStart="@dimen/margin_16_dp">
 
     <ImageView
         android:id="@+id/cover_image"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="@dimen/image_view_width"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="centerInside"
         tools:src="@mipmap/ic_launcher" />
@@ -20,8 +20,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="@dimen/margin_16_dp"
+        android:layout_marginStart="@dimen/margin_16_dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -34,7 +34,7 @@
             android:maxLines="1"
             android:textAllCaps="true"
             android:textColor="@color/textColorAuthor"
-            android:textSize="12sp"
+            android:textSize="@dimen/author_text_size"
             tools:text="J.K. Rowling" />
 
         <TextView
@@ -42,9 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="@color/textColorBookTitle"
-            android:textSize="16sp"
+            android:textSize="@dimen/title_text_size"
             tools:text="Harry Potter i Kamień Filozoficzny" />
 
     </LinearLayout>
@@ -53,8 +53,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="@dimen/margin_16_dp"
+        android:layout_marginStart="@dimen/margin_16_dp"
         android:orientation="vertical">
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:textColor="@color/textColorCountryCode"
-            android:textSize="12sp"
+            android:textSize="@dimen/language_code_text_size"
             android:textAllCaps="true"
             tools:text="pl" />
 
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:textColor="@color/textColorPrice"
-                android:textSize="12sp"
+                android:textSize="@dimen/language_code_text_size"
                 android:textStyle="bold"
                 tools:text="39.99" />
 
@@ -86,10 +86,10 @@
                 android:id="@+id/currency_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="@dimen/margin_8_dp"
                 android:layout_gravity="end"
                 android:textColor="@color/textColorPrice"
-                android:textSize="12sp"
+                android:textSize="@dimen/language_code_text_size"
                 android:textStyle="bold"
                 tools:text="PLN" />
 

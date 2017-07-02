@@ -1,6 +1,7 @@
 package com.example.dobry.booklistingapp;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         // Get the current position of Book
         final Book currentBook = getItem(position);
+        Log.i(LOG_TAG, "Item position: " + position);
 
         // Find the TextView in the list_item.xml (mapping)
         TextView titleBookTextView = (TextView) listItemView.findViewById(R.id.book_title);
@@ -58,6 +60,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         languageCode.setText(currentBook.getLanguage());
         currencyCode.setText(currentBook.getCurrency());
 
+        Log.i(LOG_TAG, "ListView has been returned");
         return listItemView;
 
     }

@@ -12,6 +12,7 @@
             android:id="@+id/searchSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_8_dp"
             android:orientation="horizontal">
 
             <SearchView
@@ -21,7 +22,7 @@
                 android:layout_weight="1"
                 android:queryHint="@string/search_view_hint"
                 android:iconifiedByDefault="false"
-                tools:queryHint="Enter a title" />
+                tools:queryHint="@string/search_hint" />
 
             <Button
                 android:id="@+id/search_button"
