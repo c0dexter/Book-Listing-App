@@ -62,9 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textAllCaps="true"
             android:textColor="@color/textColorCountryCode"
             android:textSize="@dimen/language_code_text_size"
-            android:textAllCaps="true"
             tools:text="pl" />
 
         <LinearLayout
@@ -86,8 +86,8 @@
                 android:id="@+id/currency_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_8_dp"
                 android:layout_gravity="end"
+                android:layout_marginLeft="@dimen/margin_8_dp"
                 android:textColor="@color/textColorPrice"
                 android:textSize="@dimen/language_code_text_size"
                 android:textStyle="bold"
