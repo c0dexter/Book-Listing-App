@@ -34,7 +34,7 @@ public final class Utils {
     /**
      * Create a private constructor because no one should ever create a {@link Utils} object.
      */
-    public Utils() {
+    private Utils() {
 
     }
 
@@ -76,8 +76,27 @@ public final class Utils {
                 // key called "volumeInfo", which represents a list of all properties
                 // for that book. + [authors] list
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
-                JSONArray authors = volumeInfo.getJSONArray("authors");
-                Log.println(Log.INFO, LOG_TAG, String.valueOf(authors));
+
+                // Extract the value for the key called "author"
+                String author;
+
+                // Check if JSONArray exist
+                if (volumeInfo.has("authors")) {
+                    JSONArray authors = volumeInfo.getJSONArray("authors");
+                    Log.println(Log.INFO, LOG_TAG, String.valueOf(authors));
+
+                    // Check JSONArray Returns true if this object has no mapping for name or if it has a mapping whose value is NULL
+                    if (!volumeInfo.isNull("authors")) {
+                        // Get 1st element
+                        author = (String) authors.get(0);
+                    } else {
+                        // assign info about missing info about author
+                        author = "*** unknown author ***";
+                    }
+                } else {
+                    // assign info about missing info about author
+                    author = "*** missing info of authors ***";
+                }
 
                 // For a given book, extract the JSONObject associated with the
                 // key called "imageLinks", which represents a list of all cover
@@ -119,8 +138,7 @@ public final class Utils {
                 // Extract the value for the key called "currencyCode"
                 String currency = retailPrice.getString("currencyCode");
 
-                // Extract the value for the key called "author"
-                String author = (String) authors.get(0);
+
 
                 // Extract the value for the key called "buyLink"
                 String buyLink = (String) saleInfo.get("buyLink");
@@ -162,6 +180,12 @@ public final class Utils {
      * Make an HTTP request to the given URL and return a String as the response.
      */
     private static String makeHttpRequest(URL url) throws IOException {
+
+        // To avoid "magic numbers" in code, all numeric values mustn't been used directly in a code
+        final int READ_TIMEOUT = 10000;
+        final int CONNECT_TIMEOUT = 15000;
+        final int CORRECT_RESPONSE_CODE = 200;
+
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -173,14 +197,14 @@ public final class Utils {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(READ_TIMEOUT /* milliseconds */);
+            urlConnection.setConnectTimeout(CONNECT_TIMEOUT /* milliseconds */);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             // If the request was successful (response code 200),
             // then read the input stream and parse the response.
-            if (urlConnection.getResponseCode() == 200) {
+            if (urlConnection.getResponseCode() == CORRECT_RESPONSE_CODE) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
@@ -225,9 +249,11 @@ public final class Utils {
      */
     static List<Book> fetchBookData(String requestUrl) {
 
+        final int SLEEP_TIME_MILLIS = 2000;
+
         // This action with sleeping is required for displaying circle progress bar
         try {
-            Thread.sleep(2000);
+            Thread.sleep(SLEEP_TIME_MILLIS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

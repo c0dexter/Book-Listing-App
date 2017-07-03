@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private static final int BOOK_LOADER_ID = 1;
     ListView bookListView;
+    boolean isConnected;
     /**
      * URL for books data from the Google Books API
      */
@@ -63,7 +64,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO: Implement solution for re-creating List View after rotating screen
+        // Declaration and initialization ConnectivityManager for checking internet connection
+        final ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+        /**
+         * At the beginning check the connection with internet and save result to (boolean) variable isConnected
+         * Checking if network is available
+         * If TRUE - work with LoaderManager
+         * If FALSE - hide loading spinner and show emptyStateTextView
+         */
+        checkConnection(cm);
 
         // Find a reference to the {@link ListView} in the layout
         bookListView = (ListView) findViewById(R.id.list);
@@ -75,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // so the list can be populated in the user interface
         bookListView.setAdapter(mAdapter);
 
+        // Find a reference to the empty view
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         bookListView.setEmptyView(mEmptyStateTextView);
 
@@ -90,23 +103,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mSearchViewField.setIconified(true);
         mSearchViewField.setQueryHint("Enter a book title");
 
-        // Declaration and initialization ConnectivityManager for checking internet connection
-        ConnectivityManager cm =
-                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        // Status of internet connection
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        final boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
 
-        /**
-         * Checking if network is available
-         * If TRUE - work with LoaderManager
-         * If FALSE - hide loading spinner and show emptyStateTextView
-         */
         if (isConnected) {
-            Log.i(LOG_TAG, "INTERNET connection status: " + String.valueOf(isConnected) + ". It's time to play with LoaderManager :)");
-
-
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
 
@@ -116,26 +114,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Progress bar mapping
             Log.i(LOG_TAG, "INTERNET connection status: " + String.valueOf(isConnected) + ". Sorry dude, no internet - no data :(");
 
-            View circleProgressBar = findViewById(R.id.loading_spinner);
+
             circleProgressBar.setVisibility(GONE);
             // Set empty state text to display "No internet connection."
             mEmptyStateTextView.setText(R.string.no_internet_connection);
-
         }
+
 
         // Set an item click listener on the Search Button, which sends a request to
         // Google Books API based on value from Search View
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
+        mSearchButton.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
 
-                updateQueryUrl(mSearchViewField.getQuery().toString());
+                // Check connection status
+                checkConnection(cm);
 
                 if (isConnected) {
+                    // Update URL and restart loader to displaying new result of searching
+                    updateQueryUrl(mSearchViewField.getQuery().toString());
                     restartLoader();
                     Log.i(LOG_TAG, "Search value: " + mSearchViewField.getQuery().toString());
                 } else {
-                    // Set empty state text to display "No internet connection."
+                    // Clear the adapter of previous book data
+                    mAdapter.clear();
+                    // Set mEmptyStateTextView visible
+                    mEmptyStateTextView.setVisibility(View.VISIBLE);
+                    // ...and display message: "No internet connection."
                     mEmptyStateTextView.setText(R.string.no_internet_connection);
                 }
 
@@ -145,7 +152,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected book.
-        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+        {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Find the current book that was clicked on
@@ -165,10 +174,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+    /**
+     * Check if query contains spaces if YES replace these with PLUS sign
+     *
+     * @param searchValue - user data from SearchView
+     * @return improved String URL for making HTTP request
+     */
     private String updateQueryUrl(String searchValue) {
 
-        // Check if query contains spaces
-        // if YES replace these with PLUS sign
         if (searchValue.contains(" ")) {
             searchValue = searchValue.replace(" ", "+");
         }
@@ -222,5 +235,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
     }
 
+    public void checkConnection(ConnectivityManager connectivityManager) {
+        // Status of internet connection
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        if (activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting()) {
+            isConnected = true;
+
+            Log.i(LOG_TAG, "INTERNET connection status: " + String.valueOf(isConnected) + ". It's time to play with LoaderManager :)");
+
+        } else {
+            isConnected = false;
+
+        }
+    }
 
 }
