@@ -1,7 +1,12 @@
 Book Listing - Project Specification
 =====================================
 
+[![N|Solid](http://i.imgur.com/IrJybSDm.png)](http://i.imgur.com/IrJybSDm.png) [![N|Solid](http://i.imgur.com/RSIdWVom.png)](http://i.imgur.com/RSIdWVom.png) [![N|Solid](http://i.imgur.com/7MJLOOum.png)](http://i.imgur.com/7MJLOOum.png) [![N|Solid](http://i.imgur.com/vz6PmUBm.png)](http://i.imgur.com/vz6PmUBm.png)
 
+----
+
+# YouTube video-clips with short presentations #
+[![Watch the video](http://i.imgur.com/yMsgLN0l.png)](https://youtu.be/bX1lGJOv7Ac)
 
 #Layout
 ------------
